@@ -100,6 +100,7 @@
     "typescript": "^3.9.5"
   },
   "dependencies": {
+    "@udecode/slate-plugins-core": "^0.61.1",
     "styled-icons": "^10.2.1"
   },
   "snyk": true
