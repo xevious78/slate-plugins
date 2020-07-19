@@ -83,15 +83,13 @@ import {
   withToggleType,
   withTrailingNode,
   withTransforms,
+  ToolbarElementWrapBlockquote,
 } from "@udecode/slate-plugins";
 import { createEditor, Node } from "slate";
 import { withHistory } from "slate-history";
 import { Slate, withReact } from "slate-react";
 import { autoformatRules } from "../config/autoformatRules";
-import {
-  headingTypes,
-  nodeTypes,
-} from "../config/initialValues";
+import { headingTypes, nodeTypes } from "../config/initialValues";
 import { MENTIONABLES } from "../config/mentionables";
 
 export default {
@@ -237,6 +235,7 @@ export const Plugins = () => {
         editor={editor}
         value={value}
         onChange={(newValue) => {
+          console.log(newValue);
           setValue(newValue as SlateDocument);
 
           onChangeMention(editor);
@@ -261,7 +260,7 @@ export const Plugins = () => {
             typeList={nodeTypes.typeOl}
             icon={<FormatListNumbered />}
           />
-          <ToolbarElement
+          <ToolbarElementWrapBlockquote
             type={nodeTypes.typeBlockquote}
             icon={<FormatQuote />}
           />
