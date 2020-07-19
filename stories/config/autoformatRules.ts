@@ -6,46 +6,46 @@ import {
   MARK_STRIKETHROUGH,
   toggleList,
   unwrapList,
-} from '@udecode/slate-plugins';
-import { Editor } from 'slate';
-import { nodeTypes } from './initialValues';
+} from "@udecode/slate-plugins";
+import { Editor, Transforms } from "slate";
+import { nodeTypes } from "./initialValues";
 
 const preFormat = (editor: Editor) => unwrapList(editor, nodeTypes);
 
 export const autoformatRules: AutoformatRule[] = [
   {
     type: nodeTypes.typeH1,
-    markup: '#',
+    markup: "#",
     preFormat,
   },
   {
     type: nodeTypes.typeH2,
-    markup: '##',
+    markup: "##",
     preFormat,
   },
   {
     type: nodeTypes.typeH3,
-    markup: '###',
+    markup: "###",
     preFormat,
   },
   {
     type: nodeTypes.typeH4,
-    markup: '####',
+    markup: "####",
     preFormat,
   },
   {
     type: nodeTypes.typeH5,
-    markup: '#####',
+    markup: "#####",
     preFormat,
   },
   {
     type: nodeTypes.typeH6,
-    markup: '######',
+    markup: "######",
     preFormat,
   },
   {
     type: nodeTypes.typeLi,
-    markup: ['*', '-', '+'],
+    markup: ["*", "-", "+"],
     preFormat,
     format: (editor) => {
       toggleList(editor, { ...nodeTypes, typeList: nodeTypes.typeUl });
@@ -53,7 +53,7 @@ export const autoformatRules: AutoformatRule[] = [
   },
   {
     type: nodeTypes.typeLi,
-    markup: ['1.', '1)'],
+    markup: ["1.", "1)"],
     preFormat,
     format: (editor) => {
       toggleList(editor, { ...nodeTypes, typeList: nodeTypes.typeOl });
@@ -61,50 +61,57 @@ export const autoformatRules: AutoformatRule[] = [
   },
   {
     type: nodeTypes.typeBlockquote,
-    markup: ['>'],
+    markup: [">"],
     preFormat,
+    format: (editor) => {
+      Transforms.wrapNodes(
+        editor,
+        { type: "blockquote" },
+        { match: (n) => Editor.isBlock(editor, n), mode: "lowest" }
+      );
+    },
   },
   {
     type: MARK_BOLD,
-    between: ['**', '**'],
-    mode: 'inline',
+    between: ["**", "**"],
+    mode: "inline",
     insertTrigger: true,
   },
   {
     type: MARK_BOLD,
-    between: ['__', '__'],
-    mode: 'inline',
+    between: ["__", "__"],
+    mode: "inline",
     insertTrigger: true,
   },
   {
     type: MARK_ITALIC,
-    between: ['*', '*'],
-    mode: 'inline',
+    between: ["*", "*"],
+    mode: "inline",
     insertTrigger: true,
   },
   {
     type: MARK_ITALIC,
-    between: ['_', '_'],
-    mode: 'inline',
+    between: ["_", "_"],
+    mode: "inline",
     insertTrigger: true,
   },
   {
     type: MARK_CODE,
-    between: ['`', '`'],
-    mode: 'inline',
+    between: ["`", "`"],
+    mode: "inline",
     insertTrigger: true,
   },
   {
     type: MARK_STRIKETHROUGH,
-    between: ['~~', '~~'],
-    mode: 'inline',
+    between: ["~~", "~~"],
+    mode: "inline",
     insertTrigger: true,
   },
   {
-    trigger: '`',
+    trigger: "`",
     type: nodeTypes.typeCodeBlock,
-    markup: '``',
-    mode: 'inline-block',
+    markup: "``",
+    mode: "inline-block",
     preFormat: (editor) => unwrapList(editor, nodeTypes),
   },
 ];
