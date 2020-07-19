@@ -21,6 +21,8 @@ export const onKeyDownBlockquote = () => (e: KeyboardEvent, editor: Editor) => {
     if (editor.selection?.anchor.offset == 0) {
       // If it is the first child of the blockquote: then unwrap the bloquote
       if (paragraphPath[paragraphPath.length - 1] == 0) {
+        e.preventDefault();
+
         Transforms.unwrapNodes(editor, { at: blockquoteItemPath });
       }
     }
