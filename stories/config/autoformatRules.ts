@@ -5,6 +5,7 @@ import {
   MARK_ITALIC,
   MARK_STRIKETHROUGH,
   toggleList,
+  wrapBlockquote,
   unwrapList,
 } from "@udecode/slate-plugins";
 import { Editor, Transforms } from "slate";
@@ -64,11 +65,10 @@ export const autoformatRules: AutoformatRule[] = [
     markup: [">"],
     preFormat,
     format: (editor) => {
-      Transforms.wrapNodes(
-        editor,
-        { type: "blockquote" },
-        { match: (n) => Editor.isBlock(editor, n), mode: "lowest" }
-      );
+      wrapBlockquote(editor, {
+        ...nodeTypes,
+        typeBlockquote: nodeTypes.typeBlockquote,
+      });
     },
   },
   {
